@@ -5,6 +5,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
     <!-- Added js requirements -->
 
+    {{-- Added custome js --}}
+    <script src="{{asset('asset/javaScript/Custom.js')}}"></script>
+
     <!-- Feather Icons -->
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <script>

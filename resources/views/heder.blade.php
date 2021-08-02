@@ -13,9 +13,14 @@
 <body>
    
     @if (!Route::is(['login','register']))
-        @include('nvaigation')      
-    @else
+        @include('nvaigation') 
+        
         @yield('home')
+        @yield('user-profile')
+
+    @else
+        @yield('regster')
+        @yield('login')
     @endif
 
 

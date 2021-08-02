@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\profile;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,20 +13,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('index', function () {
+    return view('home');
+})->name('index');
+
 Route::get('/', function () {
     return view('home');
-});
+})->name('index');
 
-
-Route::get('/home', function () {
-    return view('welcome');
-});
 
 // Auth group
 Route::group(['middleware' => ['auth']], function () {
+
+    // laravel 8 
+    // may be usefull for developers https://stackoverflow.com/questions/63882034/target-class-does-not-exist-problem-in-laravel-8
+    Route::get('my-profile',[App\Http\Controllers\profile::class, 'index'])->name('my-profile');
 
 });
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

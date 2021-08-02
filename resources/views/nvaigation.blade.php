@@ -7,13 +7,16 @@
       
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item {{Request::is('/') ? 'active' :''}}">
-              <a class="nav-link text-white text-uppercase" href="{{route('/')}}">Home <span class="sr-only">(current)</span></a>
+            <li class="nav-item {{Request::is('index') ? 'active' :''}}">
+              <a class="nav-link text-white text-uppercase" href="{{route('index')}}">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link text-white text-uppercase" href="#">My Profile</a>
-            </li>
-           
+
+            @if (Auth::user())
+                <li class="nav-item {{Request::is('my-profile') ? 'active' :''}}">
+                    <a class="nav-link text-white text-uppercase" href="{{route('my-profile')}}">My Profile</a>
+                </li>
+            @endif
+            
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle text-white text-uppercase" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Sort 
@@ -24,13 +27,29 @@
                 <div class="dropdown-divider"></div>
               </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link text-white text-uppercase" href="#"> Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white text-uppercase" href="#">Register</a>
-            </li>
+
+            @if (Auth::user())
+                <li class="nav-item">
+                    <a class="nav-link text-white text-uppercase text-danger" href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+                        {{ __('Log out') }}
+                    </a>
+                </li>
+            @else
+                <li class="nav-item">
+                    <a class="nav-link text-white text-uppercase" href="{{route('login')}}"> Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white text-uppercase" href="{{route('register')}}">Register</a>
+                </li>
+            @endif
+            
           </ul>
         </div>
       </nav>
+
+      <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+        @csrf
+      </form>
 </section>
