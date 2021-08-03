@@ -11,18 +11,28 @@
 
 </head>
 <body>
-   
-    @if (!Route::is(['login','register']))
-        @include('nvaigation') 
-        
-        @yield('home')
-        @yield('user-profile')
-        @yield('new-post')
+    @if (!Route::is(['admin-home','admin-users_update','admin-posts','admin-update-post']))
+        @if (!Route::is(['login','register','admin-log']))
+            @include('nvaigation') 
+            
+            @yield('home')
+            @yield('user-profile')
+            @yield('new-post')
+            @yield('update-post')
 
+            @else
+                @yield('regster')
+                @yield('login')
+                @yield('adminLogin')
+            @endif
     @else
-        @yield('regster')
-        @yield('login')
+        @include('admin.adminNavigation') 
+        @yield('admin-home')
+        @yield('update-admin-user')
+        @yield('admin-all-post')
+        @yield('admin-update-post')
     @endif
+  
 
 
     @include('footer')

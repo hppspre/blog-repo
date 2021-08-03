@@ -9,6 +9,13 @@
                 <div class="card-header ">{{ __('ADD A NEW POST') }}</div>
 
                 <div class="card-body justify-content-center">
+
+                    @if (Session::has('msg'))
+                      <div class="alert alert-primary" role="alert">
+                        {{Session::get('msg')}}
+                      </div>
+                    @endif
+
                     <form method="POST" action="{{ route('new-post') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group text-center">

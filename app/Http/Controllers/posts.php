@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\post;
+use App\Models\comments;
+
 
 use Auth;
 use Storage;
@@ -41,6 +43,63 @@ class posts extends Controller
             'status'=>'modified'
         ]);
 
+        return redirect()->back()->with('msg','Added');
+    }
+    function updatepost($id)
+    {
 
+        $select = DB::table('posts')->where([['id','=',$id]])->get();
+        return view('update-post')->with('data',$select);
+    }
+
+
+    function updateuserpost(Request $request)
+    {
+        $request->validate([
+            'title'=>'required',
+            'description'=>'required',
+            'postid'=>'required'
+        ]);
+
+        DB::table('posts')->where([['id','=',$request->postid],['user_id','=',Auth::user()->id]])->update([
+            'title' =>$request->title,
+            'description' =>$request->description,
+            'status'=>'modified'
+        ]);
+
+        return redirect()->back()->with('msg','Updated');
+    }
+
+    function dropPost($id)
+    {
+        DB::table('posts')->where([['id','=',$id],['user_id','=',Auth::user()->id]])->delete();
+        return redirect()->back();
+    }
+
+    function updateuserpostimage(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        if($request->file('image'))
+        {
+            $imagePath = $request->file('image');
+            $imageName = $imagePath->getClientOriginalName();
+
+            $randomeName=date('mdYHis') . uniqid().'bloguser.jpg';
+            $request->file('image')->storeAs('postImages', $randomeName, 'public');
+
+
+            $oldImage=DB::table('posts')->select('image')->where([['id','=',$request->postid]])->get();
+            Storage::delete('/public/postImages/' . $oldImage[0]->image);
+
+            DB::table('posts')->where([['id','=',$request->postid]])->update([
+                'image' =>$randomeName,
+                'status'=>'modified'
+            ]);
+
+            return redirect()->back()->with('msg','Updated');
+        }
     }
 }

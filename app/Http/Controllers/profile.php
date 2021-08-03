@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\post;
 
 use Auth;
 use Storage;
@@ -15,7 +15,24 @@ class profile extends Controller
 {
     function index()
     {
-        return view('/userProfile');
+        $select = DB::table('posts')->where([['user_id','=',Auth::user()->id]])->paginate(10);
+
+        $comments =DB::table('comments')
+        ->join('users','comments.user_id','=','users.id')
+        ->get();
+
+        return view('/userProfile')->with('post',$select)->with('comment',$comments);
+    }
+
+    function allPost()
+    {
+        $select = DB::table('posts')->paginate(10);
+
+        $comments =DB::table('comments')
+        ->join('users','comments.user_id','=','users.id')
+        ->get();
+
+        return view('/home')->with('post',$select)->with('comment',$comments); 
     }
 
     function updateUserProfilePic(Request $request)
@@ -81,5 +98,24 @@ class profile extends Controller
             return redirect()->back()->with('error','You entered Current password is wrong');
 
         }
+    }
+
+    function latest()
+    {
+        $select = DB::table('posts')->orderBy('created_at', 'desc')->paginate(10);
+
+        $comments =DB::table('comments')
+        ->join('users','comments.user_id','=','users.id')
+        ->get();
+        return view('/home')->with('post',$select)->with('comment',$comments);
+    }
+
+    function oldest()
+    {
+        $select = DB::table('posts')->orderBy('created_at', 'ASC')->paginate(10);
+        $comments =DB::table('comments')
+        ->join('users','comments.user_id','=','users.id')
+        ->get();
+        return view('/home')->with('post',$select)->with('comment',$comments);
     }
 }
