@@ -16,13 +16,13 @@
                   <div class="card">
                     <div class="card-body">
                       <div class="d-flex flex-column align-items-center text-center">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                        <img src="{{asset('storage/uploads/'.Auth::user()->profile_pic)}}" alt="Admin" class="img-fluid rounded-circle" style="height: 106px;object-fit: cover;width: 115px;">
+                        
                         <div class="mt-3">
-
-                          <h4>John Doe</h4>
-
-                          <button class="btn btn-info">Update profile image</button>
+                          <h4>{{Auth::user()->name}}</h4>
+                          <button class="btn btn-info" data-toggle="modal" data-target="#imageModel">Update profile image</button>
                         </div>
+
                       </div>
                     </div>
                   </div>
@@ -31,47 +31,94 @@
                 <div class="col-md-8">
                   <div class="card mb-3">
                     <div class="card-body">
-                      <div class="row">
-                        <div class="col-sm-3">
-                          <h6 class="mb-0">Name</h6>
+                      @if (Session::has('msg'))
+                        <div class="alert alert-primary" role="alert">
+                          {{Session::get('msg')}}
                         </div>
-                        <div class="col-sm-9 text-secondary">
-                          pubudu sachintha
-                        </div>
-                      </div>
-                      <hr>
-                      <div class="row">
-                        <div class="col-sm-3">
-                          <h6 class="mb-0">Email</h6>
-                        </div>
-                        <div class="col-sm-9 text-secondary">
-                          pubudusachintha1996@gmail.com
-                        </div>
-                      </div>
-                      <hr>
-                      <div class="row">
-                        <div class="col-sm-3">
-                          <h6 class="mb-0">Phone</h6>
-                        </div>
-                        <div class="col-sm-9 text-secondary">
-                          (239) 816-9029
-                        </div>
-                      </div>
-                      <hr>
-                      <div class="row">
+                      @endif
 
-                        <div class="col-md-12">
-                          <button type="button" class="btn btn-link">Edit password</button>
+                      @if (Session::has('error'))
+                        <div class="alert alert-danger" role="alert">
+                          {{Session::get('error')}}
                         </div>
-                        
-                      </div>
-                      <hr>
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <button class="btn btn-success btn-block">Edit</button>
+                      @endif
+
+                      
+                      <form action="{{route('upadate-user-details')}}" method="POST">
+                        @csrf
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <h6 class="mb-0">Name</h6>
+                          </div>
+                          <div class="col-sm-9 text-secondary">
+                            <div class="form-group">
+                              <div class="col-md-12">
+                                  <input id="name" type="text" class="form-control  @error('name') is-invalid @enderror" name="name" value="{{Auth::user()->name}}" required>
+  
+                                  @error('name')
+                                      <span class="invalid-feedback" role="alert">
+                                          <strong>{{ $message }}</strong>
+                                      </span>
+                                  @enderror
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <h6 class="mb-0">Email</h6>
+                          </div>
+                          <div class="col-sm-9 text-secondary">
+                            <div class="form-group">
+                              <div class="col-md-12">
+                                  <input id="email" type="email" class="form-control  @error('email') is-invalid @enderror" name="email" value="{{Auth::user()->email}}" required>
+  
+                                  @error('email')
+                                      <span class="invalid-feedback" role="alert">
+                                          <strong>{{ $message }}</strong>
+                                      </span>
+                                  @enderror
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <h6 class="mb-0">Phone</h6>
+                          </div>
+                          <div class="col-sm-9 text-secondary">
+                            <div class="form-group">
+                              <div class="col-md-12">
+                                  <input id="phone" type="number" class="form-control  @error('phone') is-invalid @enderror" name="phone" value="{{Auth::user()->phone}}" required>
+  
+                                  @error('phone')
+                                      <span class="invalid-feedback" role="alert">
+                                          <strong>{{ $message }}</strong>
+                                      </span>
+                                  @enderror
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+
+                          <div class="col-md-12">
+                            <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editpassword">Edit password</button>
+                          </div>
+                          
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <button class="btn btn-success btn-block">Edit</button>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </form>
+
                   </div>
     
              
@@ -80,6 +127,123 @@
     
             </div>
         </div>
+
+         <!-- Modal -->
+         <div id="editpassword" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+
+              <div class="modal-body">
+                <form method="POST" action="{{ route('update-user-password') }}" enctype="multipart/form-data">
+                  @csrf
+
+                  <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="email">{{ __('Current Password') }}</label>
+                        <input type="password" class="form-control  @error('current_password') is-invalid @enderror" name="current_password"  required>
+
+                        @error('current_password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-md-12">
+
+                        <label for="email">{{ __('New Password') }}</label>
+                        <input type="password" class="form-control  @error('new_password') is-invalid @enderror" name="new_password"  required>
+
+                        @error('new_password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                  </div>
+
+                  
+                  <div class="form-group">
+                    <div class="col-md-12">
+
+                        <label for="email">{{ __('Confirm Password') }}</label>
+                        <input type="password" class="form-control  @error('confirm_password') is-invalid @enderror" name="confirm_password"  required>
+
+                        @error('confirm_password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                  </div>
+
+                 
+
+                  <button class="btn btn-success btn-block">EDIT PASSWORD</button>
+
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div id="imageModel" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+
+              <div class="modal-body">
+                <form method="POST" action="{{ route('update-profile-pic') }}" enctype="multipart/form-data">
+                  @csrf
+                  <div class="form-group text-center">
+
+                    <label for="name" class="col-md-12 col-form-label text-uppercase">{{ __('Update your Profile Picture') }}</label><hr>
+                    <img src="{{asset('storage/uploads/'.Auth::user()->profile_pic)}}" data-src="{{asset('storage/uploads/'.Auth::user()->profile_pic)}}"  class="img-fluid rounded-circle"  id='default_img' data-src='assets/img/profile/gifavtet.gif' alt="" style="height: 106px;object-fit: cover;width: 115px;"><br>
+                    <label class="btn @error('profile_pic') is-invalid @enderror btn-info text-center rounded-circle" id='input_img' style="width: 41px;margin-top: -61px;margin-left: 68px;">
+                        <i data-feather="edit" width='15px'></i>
+                        <input type="file" id='profile' name="profile_pic" value="https://dummyimage.com/50x50/ced4da/6c757d.jpg" hidden accept="image/png,image/jpeg">
+                    </label>
+
+                    @error('profile_pic')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                    @enderror
+
+                  </div>
+
+                  <button class="btn btn-success btn-block">UPDATE PROFILE PICTURE</button>
+
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+
 
 
 @endsection

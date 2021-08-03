@@ -58,7 +58,24 @@
                                 <button type="submit" class="btn rounded-0 btn-primary btn-block">
                                     {{ __('Login') }}
                                 </button>
+                            </div>
+                        </div>
 
+                        <div class="form-group ">
+                            <div class="col-md-12">
+                                <span  class="btn rounded-0 btn-light btn-block">
+                                    {{ __('OR') }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <div class="col-md-12">
+                                <a href="{{route('register')}}">
+                                    <span type="submit" class="btn rounded-0 btn-link btn-block">
+                                        {{ __('Register now') }}
+                                    </span>
+                                </a>
                             </div>
                         </div>
                     </form>

@@ -17,6 +17,7 @@
         
         @yield('home')
         @yield('user-profile')
+        @yield('new-post')
 
     @else
         @yield('regster')

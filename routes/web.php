@@ -17,6 +17,10 @@ Route::get('index', function () {
     return view('home');
 })->name('index');
 
+Route::get('home', function () {
+    return view('home');
+})->name('home');
+
 Route::get('/', function () {
     return view('home');
 })->name('index');
@@ -28,6 +32,13 @@ Route::group(['middleware' => ['auth']], function () {
     // laravel 8 
     // may be usefull for developers https://stackoverflow.com/questions/63882034/target-class-does-not-exist-problem-in-laravel-8
     Route::get('my-profile',[App\Http\Controllers\profile::class, 'index'])->name('my-profile');
+    Route::post('update-profile-pic',[App\Http\Controllers\profile::class, 'updateUserProfilePic'])->name('update-profile-pic');
+    Route::post('upadate-user-details',[App\Http\Controllers\profile::class, 'updateUserinfo'])->name('upadate-user-details');
+    Route::post('update-user-password',[App\Http\Controllers\profile::class, 'updateUserPassword'])->name('update-user-password');
+
+    // post
+    Route::get('add-post',[App\Http\Controllers\posts::class, 'addPost'])->name('add-post');
+    Route::post('new-post',[App\Http\Controllers\posts::class, 'newpost'])->name('new-post');
 
 });
 

@@ -15,6 +15,10 @@
                 <li class="nav-item {{Request::is('my-profile') ? 'active' :''}}">
                     <a class="nav-link text-white text-uppercase" href="{{route('my-profile')}}">My Profile</a>
                 </li>
+
+                <li class="nav-item {{Request::is('add-post') ? 'active' :''}}">
+                    <a class="nav-link text-white text-uppercase" href="{{route('add-post')}}">ADD A POST</a>
+                </li>
             @endif
             
             <li class="nav-item dropdown">

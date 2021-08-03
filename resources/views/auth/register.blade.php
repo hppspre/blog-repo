@@ -14,7 +14,7 @@
                         <div class="form-group text-center">
 
                             <label for="name" class="col-md-12 col-form-label ">{{ __('Profile Picture') }}</label>
-                            <img src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" class="img-fluid rounded-circle"  id='default_img' data-src='assets/img/profile/gifavtet.gif' alt="" style="height: 106px;object-fit: cover;width: 115px;"><br>
+                            <img src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" class="img-fluid rounded-circle"  id='default_img' alt="" style="height: 106px;object-fit: cover;width: 115px;"><br>
                             <label class="btn @error('profile_pic') is-invalid @enderror btn-info text-center rounded-circle" id='input_img' style="width: 41px;margin-top: -61px;margin-left: 68px;">
                                 <i data-feather="edit" width='15px'></i>
                                 <input type="file" id='profile' name="profile_pic" value="https://dummyimage.com/50x50/ced4da/6c757d.jpg" hidden accept="image/png,image/jpeg">
