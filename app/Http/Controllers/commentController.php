@@ -10,7 +10,7 @@ use App\Models\comments;
 
 use Auth;
 
-class comment extends Controller
+class commentController extends Controller
 {
     function addComment(Request $request)
     {

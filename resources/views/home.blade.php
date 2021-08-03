@@ -44,7 +44,7 @@
 
                                     @if (Auth::user())
 
-                                        @if (Auth::user()->id!==$data->user_id)
+                                        {{-- @if (Auth::user()->id!==$data->user_id) --}}
                                             <!-- Comment form-->
                                             <form method="POST" action="{{ route('add-comments') }}">
                                                 @csrf
@@ -53,7 +53,7 @@
                                                 <button class="btn btn-success rounded-0 mt-3 btn-block text-uppercase">save my comment</button>
                                             </form>
                                             <!-- Comment with nested comments-->
-                                        @endif
+                                        {{-- @endif --}}
                                       
 
                                     @endif

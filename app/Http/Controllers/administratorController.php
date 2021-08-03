@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Session;
 use Storage;
 
-class administrator extends Controller
+class administratorController extends Controller
 {
     function index()
     {   

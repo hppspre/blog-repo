@@ -11,7 +11,7 @@ use App\Models\post;
 use Auth;
 use Storage;
 
-class profile extends Controller
+class profileController extends Controller
 {
     function index()
     {

@@ -13,7 +13,7 @@ use App\Models\comments;
 use Auth;
 use Storage;
 
-class posts extends Controller
+class postsController extends Controller
 {
     function addPost()
     {
