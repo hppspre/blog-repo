@@ -25,9 +25,7 @@
                     </a>
                 </td>
                 <td>
-                    <a href="{{route('admin-user-delete',$data->id)}}">
-                     <button class="btn btn-danger">Drop</button>
-                    </a> 
+                    <button class="btn btn-danger" id='dropUser' data-id="{{$data->id}}">Drop</button>
                 </td>
             </tr>
           @endforeach  

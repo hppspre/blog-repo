@@ -29,9 +29,7 @@
                   @endif
                   
 
-                  <a href="{{route('drop-admin-post',$data->id)}}">
-                    <button class="btn btn-danger rounded-0">Delete Now</button>
-                  </a>
+                  <button class="btn btn-danger rounded-0" id='admin-drop-post' data-id='{{$data->id}}'>Delete Now</button>
 
 
                   <hr>

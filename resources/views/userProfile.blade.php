@@ -146,9 +146,9 @@
                         <button class="btn btn-info rounded-0">Edit Now</button>
                       </a>
 
-                      <a href="{{route('drop-post',$data->id)}}">
-                        <button class="btn btn-danger rounded-0">Delete Now</button>
-                      </a>
+                      {{-- <a href="{{route('drop-post',$data->id)}}"> --}}
+                        <button class="btn btn-danger rounded-0" id='user-post-drop' data-id='{{$data->id}}'>Delete Now</button>
+                      {{-- </a> --}}
 
 
                       <hr>

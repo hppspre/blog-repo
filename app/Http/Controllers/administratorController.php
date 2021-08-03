@@ -97,13 +97,25 @@ class administratorController extends Controller
     
     }
 
-    function userDelete($id)
+    function userDelete(Request $request)
     {
         if(Session::has('admin'))
         {
-            DB::table('users')->where([['id','=',$id]])->delete();
-            $users=DB::table('users')->paginate(10);
-            return redirect('admin-home')->with('users',$users); 
+
+            $oldImage=DB::table('users')->select('profile_pic')->where([['id','=',$request->id]])->get();
+            Storage::delete('/public/uploads/' . $oldImage[0]->profile_pic);
+
+            $postImages=DB::table('posts')->where([['user_id','=',$request->id]])->pluck('image');
+
+            foreach($postImages as $index=>$image){
+              Storage::delete('/public/postImages/' . $image);
+            }
+
+            DB::table('users')->where([['id','=',$request->id]])->delete();
+            DB::table('posts')->where([['user_id','=',$request->id]])->delete();
+            DB::table('comments')->where([['user_id','=',$request->id]])->delete();
+
+            echo 'done';
         }
         else {
             # code...
@@ -129,23 +141,14 @@ class administratorController extends Controller
         }
     }
 
-    function dropAdminPost($id)
+    function dropAdminPost(Request $request)
     {
         if(Session::has('admin'))
         {
-
-            $oldImage=DB::table('posts')->select('image')->where([['id','=',$id]])->get();
+            $oldImage=DB::table('posts')->select('image')->where([['id','=',$request->id]])->get();
             Storage::delete('/public/postImages/' . $oldImage[0]->image);
 
-            DB::table('posts')->where([['id','=',$id]])->delete();
-
-            $select = DB::table('posts')->paginate(10);
-
-            $comments =DB::table('comments')
-            ->join('users','comments.user_id','=','users.id')
-            ->get();
-
-            return redirect('admin-posts')->with('post',$select)->with('comment',$comments);
+            DB::table('posts')->where([['id','=',$request->id]])->delete();
         }
         else {
             # code...

@@ -70,10 +70,10 @@ class postsController extends Controller
         return redirect()->back()->with('msg','Updated');
     }
 
-    function dropPost($id)
+    function dropPost(Request $request)
     {
-        DB::table('posts')->where([['id','=',$id],['user_id','=',Auth::user()->id]])->delete();
-        return redirect()->back();
+        DB::table('posts')->where([['id','=',$request->id],['user_id','=',Auth::user()->id]])->delete();
+        echo 'done';
     }
 
     function updateuserpostimage(Request $request)
